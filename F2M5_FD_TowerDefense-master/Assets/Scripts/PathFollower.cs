@@ -28,8 +28,15 @@ public class PathFollower : MonoBehaviour
             print("ik ben in de buurt van waypoint");
             _currentWaypoint = _path.GetNextWaypoint(_currentWaypoint);
             if (_currentWaypoint == _path.GetPathEnd())
+                
             {
-                print("ik ben bij het eindpunt");
+                PathComplete();
+            }
+            else
+            {
+                Debug.Log("hallo");
+                _currentWaypoint = _path.GetNextWaypoint(_currentWaypoint);
+                transform.LookAt(_currentWaypoint.GetPosition());
             }
             
 
@@ -42,12 +49,15 @@ public class PathFollower : MonoBehaviour
 
     private void SetupPath()
     {
+        
         _path = FindObjectOfType<Path>();
         _currentWaypoint = _path.GetPathStart();
+        transform.LookAt(_currentWaypoint.GetPosition());
     }
     
     private void PathComplete()
     {
-        
+        print("ik ben bij het eindpunt");
+        _speed = 0;
     }
 }

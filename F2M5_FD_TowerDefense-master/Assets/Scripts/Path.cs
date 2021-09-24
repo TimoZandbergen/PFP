@@ -25,7 +25,7 @@ public class Path : MonoBehaviour
         {
             if (_waypoints[i] == currentWaypoint)
             {
-                return _waypoints[0];
+                return _waypoints[i + 1];
             }
         }
         // dit is nu niet goed, moet ik nog aanpassen
