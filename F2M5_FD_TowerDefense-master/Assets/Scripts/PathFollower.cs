@@ -19,37 +19,25 @@ public class PathFollower : MonoBehaviour
 
     private void Update()
     {
-        transform.LookAt(_currentWaypoint.GetPosition());
-        transform.Translate(Vector3.forward * _speed * Time.deltaTime);
-
         float distanceToWaypoint = Vector3.Distance(transform.position, _currentWaypoint.GetPosition());
+
         if (distanceToWaypoint <= _arrivalThreshold)
         {
-            print("ik ben in de buurt van waypoint");
-            _currentWaypoint = _path.GetNextWaypoint(_currentWaypoint);
             if (_currentWaypoint == _path.GetPathEnd())
-                
             {
                 PathComplete();
             }
             else
             {
-                Debug.Log("hallo");
                 _currentWaypoint = _path.GetNextWaypoint(_currentWaypoint);
                 transform.LookAt(_currentWaypoint.GetPosition());
             }
-            
-
         }
-        
-        // beschrijf in psuedo code of comments
-        // wat moet gebeuren in de Update van PathFollower
-        // hint, je hebt de variabelen nodig die in deze class gedefinieerd zijn...
+        transform.Translate(Vector3.forward * _speed * Time.deltaTime);
     }
 
     private void SetupPath()
     {
-        
         _path = FindObjectOfType<Path>();
         _currentWaypoint = _path.GetPathStart();
         transform.LookAt(_currentWaypoint.GetPosition());
@@ -57,7 +45,7 @@ public class PathFollower : MonoBehaviour
     
     private void PathComplete()
     {
-        print("ik ben bij het eindpunt");
+        print("Ik ben bij het eindpunt");
         _speed = 0;
     }
 }
