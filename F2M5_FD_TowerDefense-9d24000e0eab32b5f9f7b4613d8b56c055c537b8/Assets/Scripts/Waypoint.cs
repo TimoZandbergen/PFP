@@ -9,4 +9,9 @@ public class Waypoint : MonoBehaviour
     {
         return transform.position;
     }
+
+    public Vector3 GetHeightCorrectedPosition(float yPos)
+    {
+        return new Vector3(transform.position.x, yPos, transform.position.z);
+    }
 }

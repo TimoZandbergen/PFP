@@ -19,7 +19,8 @@ public class PathFollower : MonoBehaviour
 
     private void Update()
     {
-        float distanceToWaypoint = Vector3.Distance(transform.position, _currentWaypoint.GetPosition());
+        Vector3 heightCorrectedWaypointPosition = _currentWaypoint.GetHeightCorrectedPosition(transform.position.y);
+        float distanceToWaypoint = Vector3.Distance(transform.position, heightCorrectedWaypointPosition);
 
         if (distanceToWaypoint <= _arrivalThreshold)
         {
@@ -30,7 +31,7 @@ public class PathFollower : MonoBehaviour
             else
             {
                 _currentWaypoint = _path.GetNextWaypoint(_currentWaypoint);
-                transform.LookAt(_currentWaypoint.GetPosition());
+                transform.LookAt(_currentWaypoint.GetHeightCorrectedPosition(transform.position.y));
             }
         }
         transform.Translate(Vector3.forward * _speed * Time.deltaTime);
@@ -40,12 +41,16 @@ public class PathFollower : MonoBehaviour
     {
         _path = FindObjectOfType<Path>();
         _currentWaypoint = _path.GetPathStart();
-        transform.LookAt(_currentWaypoint.GetPosition());
+        transform.LookAt(_currentWaypoint.GetHeightCorrectedPosition(transform.position.y));
     }
     
     private void PathComplete()
     {
         print("Ik ben bij het eindpunt");
         _speed = 0;
+        
+        FindObjectOfType<PlayerHealthComponent>().TakeDamage(1);
+        
+        Destroy(gameObject);
     }
 }
